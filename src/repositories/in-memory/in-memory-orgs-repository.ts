@@ -9,7 +9,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
     const org: Org = {
       id: randomUUID(),
       name: data.name,
-      email: data.email ?? null,
+      email: data.email,
       password_hash: data.password_hash,
       whatsapp: data.whatsapp,
       street: data.street,
@@ -25,9 +25,9 @@ export class InMemoryOrgsRepository implements OrgsRepository {
     return org;
   }
 
-  async findByName(name: string) {
+  async findByEmail(email: string) {
     const org = this.items.find((item) => {
-      return item.name === name;
+      return item.email === email;
     });
 
     if (!org) {

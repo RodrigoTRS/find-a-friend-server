@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { CreateOrgUseCase } from "./create-org-use-case";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { compare } from "bcryptjs";
-import { OrgWithSameNameError } from "./errors/org-with-same-name-error";
+import { OrgWithSameEmailError } from "./errors/org-with-same-email-error";
 
 let orgsRepository: InMemoryOrgsRepository;
 let sut: CreateOrgUseCase;
@@ -13,10 +13,10 @@ describe("Create Org use case: ", () => {
     sut = new CreateOrgUseCase(orgsRepository);
   });
 
-  it("should be able to create a org", async () => {
+  it("should be able to create an org", async () => {
     const { org } = await sut.execute({
       name: "org-01",
-      email: undefined,
+      email: "org@email.com",
       whatsapp: "+55 (19) 99849-9946",
       street: "Rua Arcelino Popó de Freitas",
       number: 32,
@@ -33,7 +33,7 @@ describe("Create Org use case: ", () => {
   it("should be able to hash an org password", async () => {
     const { org } = await sut.execute({
       name: "org-01",
-      email: undefined,
+      email: "org@email.com",
       whatsapp: "+55 (19) 99849-9946",
       street: "Rua Arcelino Popó de Freitas",
       number: 32,
@@ -52,10 +52,10 @@ describe("Create Org use case: ", () => {
     expect(isPasswordCorrectlyHashed).toBe(true);
   });
 
-  it("should not be able to create an org with same name", async () => {
+  it("should not be able to create an org with same email", async () => {
     await sut.execute({
       name: "org-01",
-      email: undefined,
+      email: "org@email.com",
       whatsapp: "+55 (19) 99849-9946",
       street: "Rua Arcelino Popó de Freitas",
       number: 32,
@@ -70,7 +70,7 @@ describe("Create Org use case: ", () => {
       async () =>
         await sut.execute({
           name: "org-01",
-          email: undefined,
+          email: "org@email.com",
           whatsapp: "+55 (19) 99849-9946",
           street: "Rua Arcelino Popó de Freitas",
           number: 32,
@@ -80,6 +80,6 @@ describe("Create Org use case: ", () => {
           country: "Brasil",
           postal_code: "13564060",
         })
-    ).rejects.toBeInstanceOf(OrgWithSameNameError);
+    ).rejects.toBeInstanceOf(OrgWithSameEmailError);
   });
 });

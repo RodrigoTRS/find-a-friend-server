@@ -1,12 +1,12 @@
 import { OrgsRepository } from "@/repositories/orgs-repository";
 import { Org } from "@prisma/client";
 import { hash } from "bcryptjs";
-import { OrgWithSameNameError } from "./errors/org-with-same-name-error";
+import { OrgWithSameEmailError } from "./errors/org-with-same-email-error";
 import { prisma } from "@/lib/prisma";
 
 interface CreateOrgUseCaseRequset {
   name: string;
-  email?: string;
+  email: string;
   whatsapp: string;
   password: string;
   street: string;
@@ -63,15 +63,15 @@ export class CreateOrgUseCase {
   }: CreateOrgUseCaseRequset): Promise<CreateOrgUseCaseResponse> {
     const password_hash = await hash(password, 6);
 
-    const orgWithSameName = await this.orgsRepository.findByName(name);
+    const orgWithSameEmail = await this.orgsRepository.findByEmail(email);
 
-    if (orgWithSameName) {
-      throw new OrgWithSameNameError();
+    if (orgWithSameEmail) {
+      throw new OrgWithSameEmailError();
     }
 
     const org = await this.orgsRepository.create({
       name,
-      email: email ? email : undefined,
+      email,
       whatsapp,
       password_hash,
       street,

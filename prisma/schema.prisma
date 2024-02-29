@@ -8,9 +8,9 @@ datasource db {
 }
 
 model Org {
-  id            String  @id @default(uuid())
-  name          String  @unique
-  email         String?
+  id            String @id @default(uuid())
+  name          String
+  email         String @unique
   whatsapp      String
   password_hash String
 
