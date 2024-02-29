@@ -2,7 +2,6 @@ import { OrgsRepository } from "@/repositories/orgs-repository";
 import { Org } from "@prisma/client";
 import { hash } from "bcryptjs";
 import { OrgWithSameEmailError } from "./errors/org-with-same-email-error";
-import { prisma } from "@/lib/prisma";
 
 interface CreateOrgUseCaseRequset {
   name: string;

@@ -37,8 +37,8 @@ model Pet {
 
   pre_requisites String[]
 
-  org   Org    @relation(fields: [orgId], references: [id])
-  orgId String
+  org    Org    @relation(fields: [org_id], references: [id])
+  org_id String
 
   @@map("pets")
 }
