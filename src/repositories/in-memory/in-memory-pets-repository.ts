@@ -26,4 +26,12 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     return pet;
   }
+
+  async fetchByOrg(org_id: string) {
+    const pets = this.items.filter((item) => {
+      return item.org_id === org_id;
+    });
+
+    return pets;
+  }
 }

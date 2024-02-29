@@ -1,6 +1,7 @@
-import { Org, Prisma } from "@prisma/client";
+import { $Enums, Org, Prisma } from "@prisma/client";
 import { OrgsRepository } from "../orgs-repository";
 import { randomUUID } from "crypto";
+import { StringAsNumber } from "fastify/types/utils";
 
 export class InMemoryOrgsRepository implements OrgsRepository {
   private items: Org[] = [];
@@ -47,5 +48,13 @@ export class InMemoryOrgsRepository implements OrgsRepository {
     }
 
     return org;
+  }
+
+  async fetchByCity(city: string) {
+    const orgs = this.items.filter((item) => {
+      return item.city === city;
+    });
+
+    return orgs;
   }
 }
