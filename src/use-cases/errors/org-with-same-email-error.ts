@@ -1,5 +1,5 @@
-export class OrgWithSameEmailError extends Error {
+export class OrgAlreadyExistsError extends Error {
   constructor() {
-    super("Organization with this email already exists.");
+    super("Organization already exists.");
   }
 }

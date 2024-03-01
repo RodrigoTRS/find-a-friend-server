@@ -1,7 +1,7 @@
 import { OrgsRepository } from "@/repositories/orgs-repository";
 import { Org } from "@prisma/client";
 import { hash } from "bcryptjs";
-import { OrgWithSameEmailError } from "./errors/org-with-same-email-error";
+import { OrgAlreadyExistsError } from "./errors/org-with-same-email-error";
 
 interface CreateOrgUseCaseRequset {
   name: string;
@@ -13,8 +13,8 @@ interface CreateOrgUseCaseRequset {
   city: string;
   state:
     | "AC"
-    | "AL"
     | "AP"
+    | "AL"
     | "AM"
     | "BA"
     | "CE"
@@ -65,7 +65,7 @@ export class CreateOrgUseCase {
     const orgWithSameEmail = await this.orgsRepository.findByEmail(email);
 
     if (orgWithSameEmail) {
-      throw new OrgWithSameEmailError();
+      throw new OrgAlreadyExistsError();
     }
 
     const org = await this.orgsRepository.create({

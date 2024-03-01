@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { CreateOrgUseCase } from "./create-org-use-case";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { compare } from "bcryptjs";
-import { OrgWithSameEmailError } from "./errors/org-with-same-email-error";
+import { OrgAlreadyExistsError } from "./errors/org-with-same-email-error";
 
 let orgsRepository: InMemoryOrgsRepository;
 let sut: CreateOrgUseCase;
@@ -80,6 +80,6 @@ describe("Create Org use case: ", () => {
           country: "Brasil",
           postal_code: "13564060",
         })
-    ).rejects.toBeInstanceOf(OrgWithSameEmailError);
+    ).rejects.toBeInstanceOf(OrgAlreadyExistsError);
   });
 });
